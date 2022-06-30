@@ -38,16 +38,19 @@ while(menu>0):
         
         if menu==1:
             numero=0
+            time.sleep(0.1)
             while int(numero)<1 or int(numero)>numero_limite:
                 numero=input("\nIntroduzca su número en la Pokedex: ")
             #Realiza la consulta
             respuesta=consultar_api(consulta_pokemon.replace('{id_or_name}',numero))
         if menu==2:
+            time.sleep(0.1)
             nombre=input("Introduzca su nombre: ").lower() #El nombre debe ir en minúsculas para el endpoint
             #Realiza la consulta
             respuesta=consultar_api(consulta_pokemon.replace('{id_or_name}',nombre))
 
         if (menu==2 or menu==1) and menu!=0:
+            time.sleep(0.1)
             #Saca el nombre a partir del número y viceversa
             nombre=respuesta['name'].title()
             numero=str(respuesta['id'])
@@ -55,10 +58,12 @@ while(menu>0):
             print("Número: "+ numero + " en la Pokedex\n")
 
             #Muestra los tipos que tiene
+            time.sleep(0.1)
             for i in respuesta['types']:
                 print("Es de tipo: "+ i["type"]["name"])
 
-            #Muestra las estadístocas del Pokemón
+            #Muestra las estadísticas del Pokemón
+            time.sleep(0.1)
             print("")
             estadisticas = respuesta['stats']
             base_stats = {}
@@ -68,6 +73,7 @@ while(menu>0):
                 print("{0:15}  {1}".format(stat_name, base_stat))
 
             #Evoluciones
+            time.sleep(0.1)
             linea_evolutiva=consultar_api(consulta_evoluciones.replace('{id_or_name}',numero))
             if(linea_evolutiva['evolution_chain'] is not None):
                 linea_evolutiva=linea_evolutiva['evolution_chain']["url"]
@@ -80,6 +86,7 @@ while(menu>0):
 
                     evoluciones=evoluciones["chain"]
                     while(evoluciones["evolves_to"]!=[]):
+                        time.sleep(0.1)
                         aux=evoluciones
                         evoluciones=evoluciones["evolves_to"][0]
                         print("Este último evoluciona a:")
@@ -87,6 +94,7 @@ while(menu>0):
                     
                     #Comprueba si hay más alternativas evolutivas
                     for i in range(len(aux["evolves_to"])):
+                        time.sleep(0.1)
                         if i!=0:
                             evoluciones=aux["evolves_to"][i]
                             print("Otra alternativa es que evolucione a:")
@@ -95,16 +103,18 @@ while(menu>0):
                 print("\nEste Pokemón no evoluciona")
 
             #Delay hasta la siguiente aparición del menú
-            time.sleep(2)
+            time.sleep(0.5)
 
 
         if menu==3:
+            time.sleep(0.1)
             print("\nActualmente existen: "+str(numero_formas)+" formas de Pokémons")
             print("Para: "+str(numero_limite)+" Pokémons diferentes")
             print("Recuerde que algunos Pokémons tienen varias formas, por lo que el número en Pokedex es inferior")
-            time.sleep(2)
+            time.sleep(0.5)
         
         if menu==4:
+            time.sleep(0.1)
             movimiento=input("\nIntroduzca su nombre en inglés: ").lower()
             respuesta=consultar_api(consulta_movimiento.replace('{name}',movimiento))
             if menu!=0:
@@ -114,19 +124,22 @@ while(menu>0):
                 print("Probabilidad de éxito: " + str(respuesta['accuracy']))
                 print("Poder o daño que inflige al enemigo: " + str(respuesta['power']))
                 print("Puntos de poder disponibles (PP): " + str(respuesta['pp']))
-                time.sleep(2)
+                time.sleep(0.5)
 
         if menu==5:
+            time.sleep(0.1)
             respuesta=consultar_api(consulta_balls.replace('{id}','34'))
             especiales=input("¿Desea incluir las Pokeballs especiales (Y/n)? ").lower()
             print("")
             for i in respuesta["items"]:
+                time.sleep(0.1)
                 print(i["name"])
             if especiales!="no" and especiales!="n":
                 respuesta=consultar_api(consulta_balls.replace('{id}','33'))
                 for i in respuesta["items"]:
+                    time.sleep(0.1)
                     print(i["name"])
-            time.sleep(2)
+            time.sleep(0.5)
     else:
         print("\nHasta pronto")
         menu=-1
