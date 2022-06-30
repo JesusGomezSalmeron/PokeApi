@@ -9,23 +9,19 @@ consulta_evoluciones="https://pokeapi.co/api/v2/pokemon-species/{id_or_name}/"
 def consultar_api (endpoint) :
     response = req.get(endpoint)
     if response.status_code != 200 :
-        print( "Error, intentelo de nuevo más tarde")
         menu=0
     else:
         return response.json()
 
 #Mira si se ha añadido algún pokémon desde la última modificación y se actualiza
 numero_limite=905
-print(consulta_evoluciones.replace('{id_or_name}',str(numero_limite)))
 while(consultar_api(consulta_evoluciones.replace('{id_or_name}',str(numero_limite))) is not None):
-    print(numero_limite)
     numero_limite=numero_limite+1
 
 numero_limite=numero_limite-1 #Como el últim no se encontró, se descuenta del límite
-
 numero_formas=consultar_api("https://pokeapi.co/api/v2/pokemon/")["count"]
-menu=3
 
+menu=3
 while(menu>0):
     print("\nBienvenido a la app con conexión a la PokeApi.")
     print("\nHay registrados actualmente "+str(numero_limite)+" Pokémons")
